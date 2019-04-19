@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :load_user, only: %i|show edit update|
+  before_action :load_user, only: %i|show edit update destroy|
 
   def index
     @users = User.all
@@ -35,6 +35,16 @@ class UsersController < ApplicationController
       flash.now[:danger] = "User isn't updated"
       render :edit
     end
+  end
+
+  def destroy
+    if @user.destroy
+      flash[:success] = "User is deleted"     
+    else
+      flash[:danger] = "User isn't deleted"
+    end
+
+    redirect_to root_url
   end
 
   private
